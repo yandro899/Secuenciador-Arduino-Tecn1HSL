@@ -28,6 +28,13 @@ namespace efectos {
   void barridoR();
   void puntos();
   void llenado();
+  void dedo();
+  void dedoR();
+  void barra();
+  void navidad();
+  void circo();
+  void circoR();
+  void basico();
 }
 
 namespace luces {
@@ -79,6 +86,34 @@ void loop() {
     case 3:
       effectSelec=3;
       efectos::llenado();
+      break;
+    case 4:
+      effectSelec=4;
+      efectos::dedo();
+      break;
+    case 5:
+      effectSelec=5;
+      efectos::dedoR();
+      break;
+    case 6:
+      effectSelec=6;
+      efectos::barra();
+      break;
+    case 7:
+      effectSelec=7;
+      efectos::navidad();
+      break;
+    case 8:
+      effectSelec=8;
+      efectos::circo();
+      break;
+    case 9:
+      effectSelec=9;
+      efectos::circoR();
+      break;
+    case 10:
+      effectSelec=10;
+      efectos::basico();
       break;
   }
 }
@@ -155,7 +190,7 @@ void luces::retardo() {
 
 /* EFECTOS */
 void efectos::barrido() {
-  /*
+  /*  1
    *  11000011
    *  11100001
    *  11110000
@@ -176,7 +211,7 @@ void efectos::barrido() {
 }
 
 void efectos::barridoR() {
-  /*
+  /*  2
    *  11000011
    *  10000111
    *  00001111
@@ -197,7 +232,7 @@ void efectos::barridoR() {
 }
 
 void efectos::puntos() {
-  /*
+  /*  3
    *  10000001
    *  01000010
    *  00100100
@@ -237,7 +272,7 @@ void efectos::puntos() {
 }
 
 void efectos::llenado() {
-  /*
+  /*  4
    *  10000000
    *  11000000
    *  10100000
@@ -291,6 +326,153 @@ void efectos::llenado() {
   luces::iluminar(1, 1, 1, 1, 0, 1, 1, 1);
   luces::iluminar(1, 1, 1, 1, 1, 1, 1, 1);
   luces::iluminar(0, 0, 0, 0, 0, 0, 0, 0);
+  luces::iluminar(1, 1, 1, 1, 1, 1, 1, 1);
+  luces::iluminar(0, 0, 0, 0, 0, 0, 0, 0);
+}
+
+void efectos::dedo() {
+  /*  5
+   *  01111111
+   *  10111111
+   *  11011111
+   *  11101111
+   *  11110111
+   *  11111011
+   *  11111110
+   */
+  luces::iluminar(1, 1, 1, 1, 1, 1, 1, 1);
+  for(int i=0;i<8;i++) {
+    luces::iluminarSolo(i, LOW);
+    luces::retardo();
+    luces::iluminarSolo(i, HIGH);
+  }
+}
+
+void efectos::dedoR() {
+  /*  6
+   *  11111110
+   *  11111101
+   *  11111011
+   *  11110111
+   *  11101111
+   *  11011111
+   *  10111111
+   *  01111111
+   */
+  luces::iluminar(1, 1, 1, 1, 1, 1, 1, 1);
+  for(int i=7;i>=0;i--) {
+    luces::iluminarSolo(i, LOW);
+    luces::retardo();
+    luces::iluminarSolo(i, HIGH);
+  }
+}
+
+void efectos::barra() {
+
+  /*  7
+   *  10000000
+   *  11000000
+   *  11100000
+   *  11110000
+   *  11111000
+   *  11111100
+   *  11111110
+   *  11111111
+   *  11111110
+   *  11111100
+   *  11111000
+   *  11110000
+   *  11100000
+   *  11000000
+   *  10000000
+   *  00000000
+   *  00000001
+   *  00000011
+   *  00000111
+   *  00001111
+   *  00011111
+   *  00111111
+   *  01111111
+   *  11111111
+   *  01111111
+   *  00111111
+   *  00011111
+   *  00001111
+   *  00000111
+   *  00000011
+   *  00000001
+   *  00000000
+   */
+  
+  for(int i=0;i<8;i++) {
+    luces::iluminarSolo(i, HIGH);
+    luces::retardo();
+  }
+  for(int i=7;i>=0;i--) {
+    luces::iluminarSolo(i, LOW);
+    luces::retardo();
+  }
+  for(int i=7;i>=0;i--) {
+    luces::iluminarSolo(i, HIGH);
+    luces::retardo();
+  }
+  for(int i=0;i<8;i++) {
+    luces::iluminarSolo(i, LOW);
+    luces::retardo();
+  }
+}
+
+void efectos::navidad() {
+  /*  8
+   *  01010101
+   *  10101010
+   */
+  luces::iluminar(0, 1, 0, 1, 0, 1, 0, 1);
+  luces::iluminar(1, 0, 1, 0, 1, 0, 1, 0);
+}
+
+void efectos::circo() {
+  /*  9
+   *  10000000
+   *  01000000
+   *  00100000
+   *  00010000
+   *  00001000
+   *  00000100
+   *  00000010  
+   *  00000001  
+   */
+   
+  for(int i=0;i<8;i++) {
+    luces::iluminarSolo(i, HIGH);
+    luces::retardo();
+    luces::iluminarSolo(i, LOW);
+  }
+}
+
+void efectos::circoR() {
+  /*  10
+   *  00000001
+   *  00000010
+   *  00000100
+   *  00001000
+   *  00010000
+   *  00100000
+   *  01000000
+   *  10000000
+   */
+  for(int i=7;i>=0;i--) {
+    luces::iluminarSolo(i, HIGH);
+    luces::retardo();
+    luces::iluminarSolo(i, LOW);
+  }
+}
+
+void efectos::basico() {
+  /*  11
+   *  11111111
+   *  00000000
+   */
   luces::iluminar(1, 1, 1, 1, 1, 1, 1, 1);
   luces::iluminar(0, 0, 0, 0, 0, 0, 0, 0);
 }
