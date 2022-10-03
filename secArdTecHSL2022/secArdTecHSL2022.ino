@@ -12,7 +12,7 @@
 static const int pinOuts[]={4,5,6,7,8,9,10,11}; //canales de salida
 static const int pinIn=2;                       //pulsador cambia efectos
 const int pinStandBy=3;                         //pin pausa
-const int totalEffects = 4;                     //Efectos totales
+const int totalEffects = 11;                     //Efectos totales
 int effectSelec=0;                              //numero que define el efecto a usar
 int newEffect=0;                                //numero del nuevo efecto a usar
 int tiempo;                                     //almacena el valor en mSeg de retraso en las transiciones
@@ -44,6 +44,7 @@ namespace luces {
    * Se recomienda no tocar
    */
   void iluminar(bool d0, bool d1, bool d2, bool d3, bool d4, bool d5, bool d6, bool d7);
+  void iluminarSinRet(bool d0, bool d1, bool d2, bool d3, bool d4, bool d5, bool d6, bool d7);
   void iluminarSolo(int sal, bool d);
   void retardo();
 }
@@ -134,6 +135,13 @@ void togglePausa() {
 
 /* Funcion que se encarga de encender los leds */
 void luces::iluminar(bool d0, bool d1, bool d2, bool d3, bool d4, bool d5, bool d6, bool d7) {
+  luces::iluminarSinRet(d0, d1, d2, d3, d4, d5, d6, d7);
+  
+  // Retardo del efecto
+  retardo();
+}
+
+void luces::iluminarSinRet(bool d0, bool d1, bool d2, bool d3, bool d4, bool d5, bool d6, bool d7) {
   // Las luces no cambian si el efecto cambio
   if(effectSelec!=newEffect) 
     return;
@@ -147,9 +155,6 @@ void luces::iluminar(bool d0, bool d1, bool d2, bool d3, bool d4, bool d5, bool 
   digitalWrite(pinOuts[5], d5);
   digitalWrite(pinOuts[6], d6);
   digitalWrite(pinOuts[7], d7);
-
-  // Retardo del efecto
-  retardo();
 }
 
 /* Funcion que solo enciende o apaga un LED. El retardo NO esta incluido aqui */
@@ -170,15 +175,13 @@ void luces::retardo() {
   if(effectSelec!=newEffect) 
     return;
 
-  // Lectura del potenciometro
-  if (analogRead(A0)!=tiempo) {
-    // Valor obtenido [0 ; 1023]
-    if (analogRead(A0) < 50)
-      // Si el tiempo obtenido es menor a 50, el tiempo es de 50ms
-      tiempo = 50;
-    else
-      tiempo = analogRead(A0);    
-  }
+  // Valor obtenido [0 ; 1023]
+  if (analogRead(A0) < 50)
+    // Si el tiempo obtenido es menor a 50, el tiempo es de 50ms
+    tiempo = 50;
+  else
+    tiempo = analogRead(A0);    
+  
   // Retardo
   delay(tiempo);
 
@@ -251,6 +254,7 @@ void efectos::puntos() {
    *  00000000
    */
 
+  luces::iluminarSinRet(1, 0, 0, 0, 0, 0, 0, 1);
   for(int i=7;i>=0;i--) {
     luces::iluminarSolo(i, HIGH);
     luces::iluminarSolo(7-i, HIGH);
@@ -306,6 +310,7 @@ void efectos::llenado() {
    *  00000000
    */
 
+  luces::iluminarSinRet(1, 0, 0, 0, 0, 0, 0, 0);
   for (int j=0; j<3; j++) {
     luces::iluminarSolo(j, HIGH);
     luces::retardo();
@@ -340,7 +345,7 @@ void efectos::dedo() {
    *  11111011
    *  11111110
    */
-  luces::iluminar(1, 1, 1, 1, 1, 1, 1, 1);
+  luces::iluminarSinRet(0, 1, 1, 1, 1, 1, 1, 1);
   for(int i=0;i<8;i++) {
     luces::iluminarSolo(i, LOW);
     luces::retardo();
@@ -359,7 +364,7 @@ void efectos::dedoR() {
    *  10111111
    *  01111111
    */
-  luces::iluminar(1, 1, 1, 1, 1, 1, 1, 1);
+  luces::iluminarSinRet(1, 1, 1, 1, 1, 1, 1, 0);
   for(int i=7;i>=0;i--) {
     luces::iluminarSolo(i, LOW);
     luces::retardo();
@@ -403,7 +408,8 @@ void efectos::barra() {
    *  00000001
    *  00000000
    */
-  
+
+  luces::iluminarSinRet(1, 0, 0, 0, 0, 0, 0, 0);
   for(int i=0;i<8;i++) {
     luces::iluminarSolo(i, HIGH);
     luces::retardo();
@@ -442,7 +448,8 @@ void efectos::circo() {
    *  00000010  
    *  00000001  
    */
-   
+
+  luces::iluminarSinRet(1, 0, 0, 0, 0, 0, 0, 0);
   for(int i=0;i<8;i++) {
     luces::iluminarSolo(i, HIGH);
     luces::retardo();
@@ -461,6 +468,8 @@ void efectos::circoR() {
    *  01000000
    *  10000000
    */
+  
+  luces::iluminarSinRet(0, 0, 0, 0, 0, 0, 0, 1);
   for(int i=7;i>=0;i--) {
     luces::iluminarSolo(i, HIGH);
     luces::retardo();
